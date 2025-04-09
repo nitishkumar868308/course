@@ -95,7 +95,7 @@ const othersItems: NavItem[] = [
 ];
 
 const AppSidebar: React.FC = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
+  const { isExpanded, isMobileOpen, setIsMobileOpen, isHovered, setIsHovered } = useSidebar();
   const pathname = usePathname();
 
   const renderMenuItems = (
@@ -256,10 +256,18 @@ const AppSidebar: React.FC = () => {
       });
     });
 
+   
+
     // If no submenu item matches, close the open submenu
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
+
+    if (isMobileOpen) {
+      setIsMobileOpen(false);
+      setIsHovered(false);
+    }
+    
   }, [pathname,isActive]);
 
   useEffect(() => {
