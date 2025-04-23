@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "@/app/redux/loginSlice/loginSlice";
 
 interface LoginModalProps {
     isOpen: boolean;
@@ -10,6 +12,10 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
     const modalRef = useRef<HTMLDivElement>(null);
     const [view, setView] = useState<"login" | "signup" | "forgot">("login");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -35,6 +41,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         };
     }, [isOpen, onClose]);
 
+    const handleLoginSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        await dispatch(loginUser(email, password));
+    };
+
+
     if (!isOpen) return null;
 
     return (
@@ -43,24 +55,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                 ref={modalRef}
                 className="bg-white rounded-2xl p-6 w-[90%] max-w-md shadow-xl relative animate-fade-in"
             >
-                <button
-                    className="absolute top-3 right-4 text-gray-500 hover:text-red-500 text-2xl"
-                    onClick={onClose}
-                >
-                    &times;
-                </button>
-
                 {/* ==== LOGIN ==== */}
                 {view === "login" && (
                     <>
                         <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
-                        <form className="space-y-4">
+                        <form onSubmit={handleLoginSubmit} className="space-y-4">
                             <div>
                                 <label className="block text-sm mb-1 font-medium">Email</label>
                                 <input
                                     type="email"
                                     required
                                     className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <div>
@@ -69,6 +76,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                                     type="password"
                                     required
                                     className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                             <div className="flex justify-between text-sm">
@@ -78,18 +87,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
                                 >
                                     Forgot password?
                                 </span>
-                                <span
-                                    className="text-blue-600 hover:underline cursor-pointer"
-                                    onClick={() => setView("signup")}
-                                >
-                                    Create account
-                                </span>
                             </div>
                             <button
                                 type="submit"
                                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition"
+
                             >
-                                Sign In
+                                Sign IN
                             </button>
                         </form>
                     </>

@@ -31,7 +31,7 @@ export default function HeroSlider() {
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % slides.length);
-        }, 5000); // 5 seconds
+        }, 5000);
         return () => clearInterval(interval);
     }, []);
 
@@ -44,7 +44,7 @@ export default function HeroSlider() {
                 alt={slide.title}
                 fill
                 className="object-cover transition-all duration-1000"
-                priority // always load hero image fast
+                priority
             />
             <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-center px-4">
                 <h1 className="text-3xl md:text-5xl font-bold text-white mb-4">

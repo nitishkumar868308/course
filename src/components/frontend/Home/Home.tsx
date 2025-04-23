@@ -10,12 +10,15 @@ import OurClients from '../OurClients/OurClients'
 const Home = () => {
     return (
         <>
+            {/* <div className="w-full">
+                <HeroSlider />
+            </div> */}
             <HeroSlider />
-            <TopTrendingCourses />
-            <RecentlyViewed />
-            <RecentAdditions />
+             <TopTrendingCourses />
+           <RecentlyViewed />
+           <RecentAdditions />
             <TopCategories />
-            <WhatPeopleSay />
+             <WhatPeopleSay />
             <OurClients />
         </>
     )
