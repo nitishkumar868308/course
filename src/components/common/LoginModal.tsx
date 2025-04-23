@@ -54,10 +54,12 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             if (data.message) {
                 toast.success(data.message);
             }
-            
+
         } catch (error) {
-            toast.error(error?.message || 'Login failed'); // Show error toast if login fails
+            const err = error as { message?: string };
+            toast.error(err.message || 'Login failed');
         }
+
     };
 
 
